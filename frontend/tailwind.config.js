@@ -26,6 +26,16 @@ module.exports = {
           hover: '#262626',
           accent: '#4F46E5',
         },
+        navy: {
+          DEFAULT: '#0F172A',
+          soft: '#1E293B',
+          deep: '#0B1120',
+        },
+        cyan: {
+          DEFAULT: '#22D3EE',
+          dark: '#0891B2',
+          soft: 'rgba(34, 211, 238, 0.12)',
+        },
       },
       boxShadow: {
         card: '0 2px 8px -2px rgba(0,0,0,0.05), 0 1px 4px -1px rgba(0,0,0,0.02)',

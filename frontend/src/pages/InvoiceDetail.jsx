@@ -4,12 +4,14 @@ import { ArrowLeft, Download, Edit, Trash2, CheckCircle2, XCircle, Send, FileTex
 import api from '../api';
 import { formatMoney, formatDate, STATUSES } from '../constants';
 import { Button, Card, PageHeader, StatusChip, Select } from '../components/ui';
+import { useToast } from '../components/Toast';
 
 export default function InvoiceDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [invoice, setInvoice] = useState(null);
   const [settings, setSettings] = useState(null);
+  const toast = useToast();
 
   useEffect(() => {
     Promise.all([api.getInvoice(id), api.getSettings()]).then(([i, s]) => {
@@ -18,14 +20,24 @@ export default function InvoiceDetail() {
   }, [id]);
 
   async function changeStatus(newStatus) {
-    const updated = await api.changeStatus(id, newStatus);
-    setInvoice(updated);
+    try {
+      const updated = await api.changeStatus(id, newStatus);
+      setInvoice(updated);
+      toast.success(`Factura marcada como ${newStatus}`, `${updated.number} · ${formatMoney(updated.total, updated.currency)}`);
+    } catch (e) {
+      toast.error('No se pudo cambiar el estado', e.message);
+    }
   }
 
   async function handleDelete() {
     if (!window.confirm('¿Eliminar esta factura?')) return;
-    await api.deleteInvoice(id);
-    navigate('/facturas');
+    try {
+      await api.deleteInvoice(id);
+      toast.success('Factura eliminada', `${invoice.number} se eliminó correctamente`);
+      navigate('/facturas');
+    } catch (e) {
+      toast.error('No se pudo eliminar', e.message);
+    }
   }
 
   if (!invoice || !settings) return <div className="skeleton h-64" />;

@@ -3,6 +3,7 @@ import { Save, Upload, CheckCircle2, Trash2 } from 'lucide-react';
 import api from '../api';
 import { CURRENCIES, COUNTRIES, COUNTRY_TAX_PRESETS } from '../constants';
 import { Button, Card, Field, Input, Textarea, Select, PageHeader } from '../components/ui';
+import { useToast } from '../components/Toast';
 
 export default function SettingsPage() {
   const [form, setForm] = useState(null);
@@ -10,6 +11,7 @@ export default function SettingsPage() {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState('');
   const fileRef = useRef(null);
+  const toast = useToast();
 
   useEffect(() => { api.getSettings().then(setForm); }, []);
 
@@ -66,9 +68,12 @@ export default function SettingsPage() {
       });
       setForm(saved);
       setSaved(true);
+      toast.success('Configuración guardada', 'Los cambios se aplicarán a las próximas facturas.');
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {
-      setError(err.response?.data?.detail || err.message);
+      const msg = err.response?.data?.detail || err.message;
+      setError(msg);
+      toast.error('No se pudo guardar', msg);
     } finally { setSaving(false); }
   }
 

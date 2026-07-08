@@ -4,6 +4,7 @@ import { Plus, Users, Search, Trash2, Edit3, X } from 'lucide-react';
 import api from '../api';
 import { COUNTRIES, COUNTRY_TAX_PRESETS } from '../constants';
 import { Button, Card, Field, Input, Textarea, Select, PageHeader, EmptyState, Skeleton } from '../components/ui';
+import { useToast } from '../components/Toast';
 
 const empty = {
   name: '', tax_id_label: 'ID Fiscal', tax_id: '',
@@ -19,6 +20,7 @@ export default function ClientsList() {
   const [form, setForm] = useState(empty);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
+  const toast = useToast();
 
   function load() {
     setLoading(true);
@@ -56,20 +58,32 @@ export default function ClientsList() {
     if (form.email && !/^\S+@\S+\.\S+$/.test(form.email)) { setError('Email inválido.'); return; }
     setSaving(true);
     try {
-      if (editingId) await api.updateClient(editingId, form);
-      else await api.createClient(form);
+      if (editingId) {
+        await api.updateClient(editingId, form);
+        toast.success('Cliente actualizado', form.name);
+      } else {
+        await api.createClient(form);
+        toast.success('Cliente creado', form.name);
+      }
       setShowForm(false); setForm(empty); setEditingId(null);
       load();
     } catch (err) {
-      setError(err.response?.data?.detail || err.message);
+      const msg = err.response?.data?.detail || err.message;
+      setError(msg);
+      toast.error('No se pudo guardar', msg);
     } finally { setSaving(false); }
   }
 
-  async function handleDelete(id, e) {
+  async function handleDelete(id, name, e) {
     e.stopPropagation();
     if (!window.confirm('¿Eliminar este cliente? Sus facturas no se eliminarán.')) return;
-    await api.deleteClient(id);
-    load();
+    try {
+      await api.deleteClient(id);
+      toast.success('Cliente eliminado', name);
+      load();
+    } catch (err) {
+      toast.error('No se pudo eliminar', err.message);
+    }
   }
 
   const filtered = q
@@ -202,7 +216,7 @@ export default function ClientsList() {
                   <Edit3 size={13} /> Editar
                 </button>
                 <button
-                  onClick={(e) => handleDelete(c.id, e)}
+                  onClick={(e) => handleDelete(c.id, c.name, e)}
                   className="flex-1 flex items-center justify-center gap-1 py-2 rounded-md text-xs font-semibold text-ink-muted hover:bg-red-50 hover:text-red-600"
                   data-testid={`delete-client-${c.name}`}
                 >

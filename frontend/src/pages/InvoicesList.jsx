@@ -4,6 +4,7 @@ import { Plus, Search, FileText, Trash2, Download, Filter } from 'lucide-react';
 import api from '../api';
 import { formatMoney, formatDate, STATUSES } from '../constants';
 import { Button, Card, PageHeader, StatusChip, EmptyState, Input, Select, Skeleton } from '../components/ui';
+import { useToast } from '../components/Toast';
 
 export default function InvoicesList() {
   const [invoices, setInvoices] = useState([]);
@@ -11,6 +12,7 @@ export default function InvoicesList() {
   const [status, setStatus] = useState('');
   const [q, setQ] = useState('');
   const navigate = useNavigate();
+  const toast = useToast();
 
   function load() {
     setLoading(true);
@@ -21,12 +23,17 @@ export default function InvoicesList() {
 
   useEffect(() => { load(); /* eslint-disable-next-line */ }, [status]);
 
-  async function handleDelete(id, e) {
+  async function handleDelete(id, number, e) {
     e.stopPropagation();
     e.preventDefault();
     if (!window.confirm('¿Eliminar esta factura? Esta acción no se puede deshacer.')) return;
-    await api.deleteInvoice(id);
-    load();
+    try {
+      await api.deleteInvoice(id);
+      toast.success('Factura eliminada', `${number} se eliminó correctamente`);
+      load();
+    } catch (err) {
+      toast.error('No se pudo eliminar', err.message);
+    }
   }
 
   const filtered = useMemo(() => {
@@ -141,7 +148,7 @@ export default function InvoicesList() {
                           <Download size={15} />
                         </a>
                         <button
-                          onClick={(e) => handleDelete(inv.id, e)}
+                          onClick={(e) => handleDelete(inv.id, inv.number, e)}
                           className="p-2 rounded-md hover:bg-red-50 text-ink-muted hover:text-red-600"
                           title="Eliminar"
                           data-testid={`invoice-delete-${inv.number}`}

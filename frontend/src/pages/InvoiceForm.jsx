@@ -6,6 +6,7 @@ import {
   CURRENCIES, STATUSES, PAYMENT_METHODS, formatMoney, todayISO,
 } from '../constants';
 import { Button, Card, Field, Input, Select, Textarea, PageHeader } from '../components/ui';
+import { useToast } from '../components/Toast';
 
 function emptyItem() {
   return { description: '', quantity: 1, unit_price: 0, discount: 0, tax_rate: 0 };
@@ -15,6 +16,7 @@ export default function InvoiceForm() {
   const { id } = useParams();
   const isEdit = Boolean(id);
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [settings, setSettings] = useState(null);
   const [clients, setClients] = useState([]);
@@ -128,9 +130,15 @@ export default function InvoiceForm() {
       const saved = isEdit
         ? await api.updateInvoice(id, payload)
         : await api.createInvoice(payload);
+      toast.success(
+        isEdit ? 'Factura actualizada' : 'Factura creada',
+        `${saved.number} · ${formatMoney(saved.total, saved.currency)}`,
+      );
       navigate(`/facturas/${saved.id}`);
     } catch (err) {
-      setError(err.response?.data?.detail || err.message || 'Error al guardar');
+      const msg = err.response?.data?.detail || err.message || 'Error al guardar';
+      setError(msg);
+      toast.error('No se pudo guardar', msg);
       setSaving(false);
     }
   }
