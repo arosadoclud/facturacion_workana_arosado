@@ -1,0 +1,108 @@
+{
+  "theme": "Light",
+  "archetype": "Swiss & High-Contrast (Archetype 4) with Editorial Touches",
+  "typography": {
+    "fonts": {
+      "headings": "'Cabinet Grotesk', sans-serif",
+      "body": "'Satoshi', sans-serif",
+      "monospace": "'JetBrains Mono', monospace"
+    },
+    "scale": {
+      "h1": "text-4xl tracking-tight font-bold",
+      "h2": "text-2xl tracking-tight font-semibold",
+      "h3": "text-xl font-medium",
+      "body": "text-sm",
+      "labels": "text-xs uppercase tracking-widest font-semibold",
+      "numbers": "font-mono"
+    },
+    "import_urls": [
+      "https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&f[]=satoshi@400,500,700&display=swap",
+      "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"
+    ]
+  },
+  "colors": {
+    "background": {
+      "app": "#F9F9F8",
+      "surface": "#FFFFFF",
+      "subtle": "#F4F4F2"
+    },
+    "text": {
+      "primary": "#0A0A0A",
+      "secondary": "#525252",
+      "muted": "#A3A3A3"
+    },
+    "border": {
+      "default": "#E5E5E0",
+      "focus": "#0A0A0A"
+    },
+    "brand": {
+      "primary": "#0A0A0A",
+      "primary_hover": "#262626",
+      "accent": "#4F46E5" 
+    },
+    "status": {
+      "pagada": { "text": "#047857", "bg": "#D1FAE5", "border": "#34D399" },
+      "pendiente": { "text": "#B45309", "bg": "#FEF3C7", "border": "#FBBF24" },
+      "vencida": { "text": "#B91C1C", "bg": "#FEE2E2", "border": "#F87171" },
+      "borrador": { "text": "#4B5563", "bg": "#F3F4F6", "border": "#D1D5DB" },
+      "anulada": { "text": "#1F2937", "bg": "#E5E7EB", "border": "#9CA3AF" }
+    }
+  },
+  "spacing_and_layout": {
+    "container_padding": "p-6 md:p-10",
+    "card_padding": "p-6",
+    "gap": "gap-6",
+    "radius": {
+      "card": "rounded-xl",
+      "button": "rounded-lg",
+      "input": "rounded-md"
+    },
+    "shadows": {
+      "card": "shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05),0_1px_4px_-1px_rgba(0,0,0,0.02)]",
+      "dropdown": "shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)]",
+      "hover": "shadow-[0_8px_24px_-8px_rgba(0,0,0,0.1)]"
+    }
+  },
+  "components": {
+    "sidebar": {
+      "layout": "w-64 fixed left-0 top-0 h-screen border-r border-default bg-app",
+      "item_active": "bg-white text-primary font-medium shadow-sm ring-1 ring-border/50",
+      "item_inactive": "text-secondary hover:bg-subtle hover:text-primary transition-colors"
+    },
+    "dashboard_grid": {
+      "layout": "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6",
+      "kpi_card": "col-span-1 bg-surface border border-default p-6 flex flex-col gap-2 rounded-xl",
+      "chart_card": "col-span-1 md:col-span-2 xl:col-span-3 bg-surface border border-default p-6 rounded-xl",
+      "list_card": "col-span-1 md:col-span-2 xl:col-span-1 bg-surface border border-default p-6 rounded-xl"
+    },
+    "invoice_table": {
+      "header": "text-xs uppercase tracking-widest text-secondary font-semibold bg-app/50 border-y border-default py-3 px-4",
+      "row": "border-b border-default hover:bg-subtle/30 transition-colors",
+      "cell": "py-4 px-4 text-sm"
+    },
+    "buttons": {
+      "primary": "bg-primary text-white hover:bg-primary_hover px-4 py-2 font-medium transition-all",
+      "secondary": "bg-white text-primary border border-default hover:bg-subtle px-4 py-2 font-medium transition-all"
+    },
+    "inputs": {
+      "base": "bg-white border border-default text-primary placeholder:text-muted focus:border-focus focus:ring-1 focus:ring-focus transition-all px-3 py-2"
+    }
+  },
+  "motion": {
+    "hover_lift": "hover:-translate-y-[1px] transition-transform duration-200",
+    "page_enter": "animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out",
+    "stagger_children": "Delay transitions by 50ms for list items."
+  },
+  "instructions_to_main_agent": [
+    "Implement the UI entirely in Spanish.",
+    "Use Lucide-react for icons.",
+    "Ensure all monetary values use JetBrains Mono (monospace font).",
+    "Use Shadcn UI components for Tables, Dropdowns, Dialogs, Selects, and Tabs. Customize them strictly according to this JSON (borders, radii, colors).",
+    "For the dashboard, use Recharts for the monthly revenue chart. Keep the chart colors monochrome (black bars/lines) with very subtle grid lines.",
+    "Include a 'data-testid' attribute on all interactive elements (buttons, links, form inputs) using kebab-case role-based naming.",
+    "The layout must have a persistent Sidebar and a main content area. Content area should have generous padding.",
+    "Avoid generic centered text. Left-align most content, especially headers and table data (except numbers, which align right).",
+    "For the Invoice creation form, use a split view or a clean top-to-bottom editorial flow. Add a dynamic table for items where rows can be added.",
+    "No purple gradients. Stick to the stark, professional Swiss/Editorial aesthetic defined in the palette."
+  ]
+}
