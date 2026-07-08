@@ -14,16 +14,16 @@ from reportlab.platypus import Paragraph
 from reportlab.lib.utils import ImageReader
 
 
-# Paleta
-NAVY = colors.HexColor("#0F172A")          # fondo del header
-NAVY_SOFT = colors.HexColor("#1E293B")     # rayas / cajas secundarias
-CYAN = colors.HexColor("#22D3EE")          # acento principal
-CYAN_DARK = colors.HexColor("#0891B2")
+# Paleta — Andy Rosado brand
+NAVY = colors.HexColor("#0A1426")          # fondo del header
+NAVY_SOFT = colors.HexColor("#152239")     # rayas / cajas secundarias
+CYAN = colors.HexColor("#00E5FF")          # acento principal (Cian Eléctrico)
+CYAN_DARK = colors.HexColor("#00B8D4")
 INK = colors.HexColor("#0A0A0A")
 INK_SOFT = colors.HexColor("#334155")
 INK_MUTED = colors.HexColor("#64748B")
-LINE = colors.HexColor("#E2E8F0")
-BG_ALT = colors.HexColor("#F8FAFC")
+LINE = colors.HexColor("#E9EEF3")          # gris claro brand
+BG_ALT = colors.HexColor("#F5F8FB")
 WHITE = colors.white
 
 STATUS_COLORS = {
@@ -390,8 +390,30 @@ def build_invoice_pdf(invoice: dict, settings: dict) -> bytes:
 
 
 def _draw_logo_placeholder(c, settings, x, y, size):
-    """Dibuja un placeholder con la inicial de la empresa (cyan sobre navy)."""
-    letter = (settings.get("business_name") or "F")[0].upper()
+    """Dibuja una letra 'A' estilo Andy Rosado (cyan sobre navy) si no hay logo subido."""
+    # Fondo ya dibujado (roundRect navy_soft). Dibujamos la 'A' geométrica en cyan.
+    from reportlab.lib.units import mm as _mm
+    cx = x + size / 2
+    cy_bottom = y + size * 0.15
+    cy_top = y + size * 0.85
+    # Trazo: triángulo "A" con corte diagonal moderno
+    p = c.beginPath()
+    p.moveTo(cx, cy_top)                                # ápice
+    p.lineTo(x + size * 0.85, cy_bottom)                # base derecha
+    p.lineTo(x + size * 0.68, cy_bottom)                # esquina inferior derecha interna
+    p.lineTo(x + size * 0.60, y + size * 0.35)          # arranque diagonal
+    p.lineTo(x + size * 0.40, y + size * 0.35)          # diagonal a la izq
+    p.lineTo(x + size * 0.32, cy_bottom)                # esquina inf izq interna
+    p.lineTo(x + size * 0.15, cy_bottom)                # base izquierda
+    p.close()
     c.setFillColor(CYAN)
-    c.setFont("Helvetica-Bold", 30)
-    c.drawCentredString(x + size / 2, y + size / 2 - 10, letter)
+    c.setStrokeColor(CYAN)
+    c.drawPath(p, fill=1, stroke=0)
+    # Hueco central de la A (triangulito)
+    p2 = c.beginPath()
+    p2.moveTo(cx, y + size * 0.72)
+    p2.lineTo(x + size * 0.44, y + size * 0.48)
+    p2.lineTo(x + size * 0.56, y + size * 0.48)
+    p2.close()
+    c.setFillColor(NAVY_SOFT)
+    c.drawPath(p2, fill=1, stroke=0)

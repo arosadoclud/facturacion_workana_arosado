@@ -74,7 +74,7 @@ def _from_mongo(doc: Optional[dict]) -> Optional[dict]:
 class Settings(BaseModel):
     model_config = ConfigDict(populate_by_name=True)
 
-    business_name: str = ""
+    business_name: str = "Andy Rosado — Soluciones Digitales"
     tax_id_label: str = "ID Fiscal"  # RNC, NIF, RFC, CUIT, VAT, etc
     tax_id: str = ""
     country: str = ""
@@ -89,7 +89,7 @@ class Settings(BaseModel):
     apply_taxes: bool = False
     legal_footer: str = ""
     default_terms: str = ""
-    invoice_prefix: str = "FAC"
+    invoice_prefix: str = "FAC-2026"
     next_invoice_number: int = 1
 
 

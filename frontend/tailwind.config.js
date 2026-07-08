@@ -27,14 +27,17 @@ module.exports = {
           accent: '#4F46E5',
         },
         navy: {
-          DEFAULT: '#0F172A',
-          soft: '#1E293B',
-          deep: '#0B1120',
+          DEFAULT: '#0A1426',
+          soft: '#152239',
+          deep: '#050B18',
         },
         cyan: {
-          DEFAULT: '#22D3EE',
-          dark: '#0891B2',
-          soft: 'rgba(34, 211, 238, 0.12)',
+          DEFAULT: '#00E5FF',
+          dark: '#00B8D4',
+          soft: 'rgba(0, 229, 255, 0.12)',
+        },
+        neutral2: {
+          light: '#E9EEF3',
         },
       },
       boxShadow: {

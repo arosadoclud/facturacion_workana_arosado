@@ -4,6 +4,7 @@ import { ArrowLeft, Download, Edit, Trash2, CheckCircle2, XCircle, Send, FileTex
 import api from '../api';
 import { formatMoney, formatDate, STATUSES } from '../constants';
 import { Button, Card, PageHeader, StatusChip, Select } from '../components/ui';
+import { LogoMark } from '../components/Logo';
 import { useToast } from '../components/Toast';
 
 export default function InvoiceDetail() {
@@ -72,10 +73,10 @@ export default function InvoiceDetail() {
           <div className="flex items-start justify-between pb-6 border-b border-line">
             <div>
               {settings.logo ? (
-                <img src={settings.logo} alt="logo" className="h-12 w-auto mb-3" />
+                <img src={settings.logo} alt="logo" className="h-14 w-auto mb-3" />
               ) : (
-                <div className="w-12 h-12 rounded-md bg-ink text-white flex items-center justify-center font-display font-bold text-lg mb-3">
-                  {(settings.business_name || 'F').charAt(0).toUpperCase()}
+                <div className="mb-3">
+                  <LogoMark size={48} radius={10} />
                 </div>
               )}
               <div className="font-display font-bold text-lg">{settings.business_name || 'Tu negocio'}</div>
@@ -89,8 +90,8 @@ export default function InvoiceDetail() {
               </div>
             </div>
             <div className="text-right">
-              <div className="font-display text-3xl font-bold tracking-tight">FACTURA</div>
-              <div className="font-mono text-sm mt-1">{invoice.number}</div>
+              <div className="font-display text-3xl font-bold tracking-tight text-cyan-dark">FACTURA</div>
+              <div className="font-mono text-sm mt-1 font-semibold text-navy">{invoice.number}</div>
               <div className="mt-3"><StatusChip status={invoice.status} /></div>
             </div>
           </div>

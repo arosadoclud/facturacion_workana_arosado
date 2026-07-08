@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import api from '../api';
+import { LogoMark, LogoHorizontal } from './Logo';
 
 const NAV = [
   { to: '/', label: 'Panel', icon: LayoutDashboard, exact: true, testid: 'nav-dashboard' },
@@ -45,12 +46,7 @@ export default function Layout({ children }) {
     <div className="min-h-screen bg-app text-ink">
       {/* Mobile top bar */}
       <div className="md:hidden sticky top-0 z-40 flex items-center justify-between bg-navy text-white border-b border-navy-soft px-4 h-14">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md bg-cyan text-navy flex items-center justify-center">
-            <span className="font-display font-bold text-sm">F</span>
-          </div>
-          <span className="font-display font-bold tracking-tight">Facturación PRO</span>
-        </div>
+        <LogoHorizontal mark={28} showTagline={false} />
         <button
           data-testid="menu-toggle"
           onClick={() => setOpen(!open)}
@@ -73,13 +69,15 @@ export default function Layout({ children }) {
         {/* Franja cyan izquierda */}
         <div className="absolute top-0 left-0 bottom-0 w-[3px] bg-cyan" />
 
-        <div className="hidden md:flex items-center gap-3 px-6 h-16 border-b border-navy-soft">
-          <div className="w-9 h-9 rounded-md bg-cyan flex items-center justify-center shadow-lg shadow-cyan/30">
-            <span className="text-navy font-display font-bold text-lg">F</span>
-          </div>
-          <div>
-            <div className="font-display font-bold text-lg tracking-tight leading-none text-white">Facturación</div>
-            <div className="text-[10px] uppercase tracking-[0.16em] text-cyan mt-0.5">PRO / v1.0</div>
+        <div className="hidden md:flex items-center gap-3 px-5 h-20 border-b border-navy-soft">
+          <LogoMark size={40} radius={10} />
+          <div className="min-w-0">
+            <div className="font-display font-bold text-[15px] tracking-tight leading-none text-white">
+              ANDY <span className="text-cyan">ROSADO</span>
+            </div>
+            <div className="text-[9px] uppercase tracking-[0.18em] text-cyan mt-1.5">
+              Soluciones Digitales
+            </div>
           </div>
         </div>
 
